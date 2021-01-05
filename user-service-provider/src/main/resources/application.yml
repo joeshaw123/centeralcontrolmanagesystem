@@ -1,0 +1,30 @@
+server:
+  port: 9001
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9000/eureka/
+#    register-with-eureka: false
+#    fetch-registry: false
+
+
+spring:
+  application:
+    name: user-service-provider
+  zipkin:
+    base-url: http://42.192.132.55:9411/
+  datasource:
+    url: jdbc:mysql://42.192.132.55:3306/media?autoReconnect=true&useSSL=false&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: false
+    cache-enabled: false
+  type-aliases-package: com.joeshaw.userserviceprovider.domain
+  mapper-locations: classpath*:/mapper/*.xml
