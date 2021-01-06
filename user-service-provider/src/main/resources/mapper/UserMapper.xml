@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joeshaw.userserviceprovider.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.joeshaw.userserviceprovider.domain.User">
+        <id column="id"  property="id" />
+        <result column="nickName" property="nickName" />
+        <result column="password" property="password" />
+        <result column="phone" property="phone" />
+        <result column="department" property="department" />
+        <result column="roleId" property="roleId" />
+        <result column="lastLoginTime" property="lastLoginTime" />
+    </resultMap>
+
+    <insert id="save" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+        insert into user (nickName,password,phone,department,roleId,lastLoginTime) values (#{nickName},#{password},#{phone},#{department},#{roleId},#{lastLoginTime})
+    </insert>
+
+    <update id="updateByPrimary" parameterType="User">
+        update user set nickName = #{nickName},password=#{password},phone=#{phone},department=#{department},roleId=#{roleId},lastLoginTime=#{lastLoginTime} where id =#{id}
+    </update>
+
+    <update id="updateRoleToNull" parameterType="java.util.List">
+        update user set roleId = null where id in
+        <foreach collection="userIdList" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="updateLastLoginTime">
+        update user set lastLoginTime = #{date} where phone = #{phone}
+    </update>
+
+    <select id="selectByPhone" parameterType="User" resultMap="BaseResultMap" >
+        select * from user where phone = #{phone}
+    </select>
+
+    <select id="selectOneById" parameterType="User" resultMap="BaseResultMap">
+        select * from user where id = #{id}
+    </select>
+
+    <select id="selectAll" parameterType="java.util.List" resultMap="BaseResultMap">
+        select * from user
+    </select>
+
+    <delete id="deleteByPrimary" parameterType="Long">
+        delete from user where id = #{id}
+    </delete>
+
+</mapper>
